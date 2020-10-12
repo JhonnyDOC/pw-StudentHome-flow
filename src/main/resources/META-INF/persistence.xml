@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+
+	<persistence-unit name="StudentHomePU" transaction-type="JTA">
+		<jta-data-source>java:/studenHomeDS</jta-data-source>
+		<class>pe.edu.upc.studenthome.models.entities.Persona</class>
+		<class>pe.edu.upc.studenthome.models.entities.Estudiante</class>
+		<class>pe.edu.upc.studenthome.models.entities.Arrendador</class>
+		<class>pe.edu.upc.studenthome.models.entities.Ciudad</class>
+		<class>pe.edu.upc.studenthome.models.entities.Distrito</class>
+		<class>pe.edu.upc.studenthome.models.entities.TipoInmueble</class>
+		<class>pe.edu.upc.studenthome.models.entities.Habitacion</class>
+		<class>pe.edu.upc.studenthome.models.entities.Servicio</class>
+		<class>pe.edu.upc.studenthome.models.entities.HabitacionServicio</class>
+		<class>pe.edu.upc.studenthome.models.entities.TipoPago</class>
+		<class>pe.edu.upc.studenthome.models.entities.TipoComprobante</class>
+		<class>pe.edu.upc.studenthome.models.entities.Renta</class>
+		<class>pe.edu.upc.studenthome.models.entities.DetalleRenta</class>
+		<class>pe.edu.upc.studenthome.models.entities.Historial</class>
+		<class>pe.edu.upc.studenthome.models.entities.Calificacion</class>
+		<class>pe.edu.upc.studenthome.models.entities.Puntaje</class>
+		<class>pe.edu.upc.studenthome.models.entities.CalificacionRoommate</class>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		<properties>
+			<property
+				name="javax.persistence.schema-generation.database.action"
+				value="update" />
+		</properties>
+	</persistence-unit>
+
+</persistence>

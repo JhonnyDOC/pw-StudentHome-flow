@@ -1,0 +1,163 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Lista de Estudiantes</title>
+</h:head>
+
+<h:body>
+
+	<h1>Estudiantes</h1>
+
+	<h:form id="form-estudiante">
+		<p:growl id="growl" life="2000" />
+		<p:panelGrid id="panel-estudiante" columns="4"
+			style="#{estudianteView.stylePanelEstudiante}">
+			<p:outputLabel for="input-nombrePersona" value="Nombres :" />
+			<p:inputText id="input-nombrePersona"
+				value="#{estudianteView.estudiante.persona.nombrePersona}" />
+			<p:outputLabel for="input-apellidoPersona" value="Apellidos :" />
+			<p:inputText id="input-apellidoPersona"
+				value="#{estudianteView.estudiante.persona.apellidoPersona}" />
+
+			<p:outputLabel for="input-dni" value="DNI :" />
+			<p:inputText id="input-dni"
+				value="#{estudianteView.estudiante.persona.dni}" />
+			<p:outputLabel for="input-direccion" value="Dirección :" />
+			<p:inputText id="input-direccion"
+				value="#{estudianteView.estudiante.persona.direccion}" />
+
+			<p:outputLabel for="input-roomate" value="Roomate :" />
+			<p:inputText id="input-roomate"
+				value="#{estudianteView.estudiante.roomate}" />
+			<p:outputLabel for="input-numeroTelefono" value="Telefono :" />
+			<p:inputText id="input-numeroTelefono"
+				value="#{estudianteView.estudiante.persona.numeroTelefono}" />
+
+			<p:outputLabel for="input-descripcionUniv" value="Universidad :" />
+			<p:inputText id="input-descripcionUniv"
+				value="#{estudianteView.estudiante.descripcionUniv}" />
+
+		</p:panelGrid>
+
+		<p:panelGrid id="panel-search" columns="4"
+			style="#{estudianteView.styleTableEstudiante}">
+			<p:outputLabel for="input-search-nombrePersona" value="Nombres :" />
+			<p:inputText id="input-search-nombrePersona"
+				value="#{estudianteView.estudianteSearch.persona.nombrePersona}" />
+			<p:commandButton value="Buscar" icon="pi pi-search"
+				actionListener="#{estudianteView.findByNombre()}"
+				update=":form-estudiante:table-estudiante :form-estudiante:toolbar-estudiante" />
+			<p:commandButton value="Limpiar" icon="pi pi-refresh"
+				actionListener="#{estudianteView.cleanByNombres()}" update="@form" />
+
+			<p:outputLabel for="input-search-apellidoPersona" value="Apellidos :" />
+			<p:inputText id="input-search-apellidoPersona"
+				value="#{estudianteView.estudianteSearch.persona.apellidoPersona}" />
+			<p:commandButton value="Buscar" icon="pi pi-search"
+				actionListener="#{estudianteView.findByApellido()}"
+				update=":form-estudiante:table-estudiante :form-estudiante:toolbar-estudiante" />
+			<p:commandButton value="Limpiar" icon="pi pi-refresh"
+				actionListener="#{estudianteView.cleanByApellidos()}" update="@form" />
+
+			<p:outputLabel for="input-search-dni" value="DNI :" />
+			<p:inputText id="input-search-dni"
+				value="#{estudianteView.estudianteSearch.persona.dni}" />
+			<p:commandButton value="Buscar" icon="pi pi-search"
+				actionListener="#{estudianteView.findBydni()}"
+				update=":form-estudiante:table-estudiante :form-estudiante:toolbar-estudiante" />
+			<p:commandButton value="Limpiar" icon="pi pi-refresh"
+				actionListener="#{estudianteView.cleanBydni()}" update="@form" />
+		</p:panelGrid>
+
+		<p:dataTable id="table-estudiante"
+			value="#{estudianteView.estudiantes}" var="estudiante"
+			paginator="true" rows="5" paginatorPosition="bottom"
+			selectionMode="single" rowKey="#{estudiante.id}"
+			style="#{estudianteView.styleTableEstudiante}"
+			emptyMessage="No hay arrendadores encontrados">
+
+			<p:ajax event="rowSelect"
+				listener="#{estudianteView.selectEstudiante}" update="@form" />
+			<p:ajax event="rowUnselect"
+				listener="#{estudianteView.unselectEstudiante}" update="@form" />
+
+			<p:column headerText="Id">
+				<h:outputText value="#{estudiante.id}" />
+			</p:column>
+
+			<p:column headerText="Nombres">
+				<h:outputText value="#{estudiante.persona.nombrePersona}" />
+			</p:column>
+
+			<p:column headerText="Apellidos">
+				<h:outputText value="#{estudiante.persona.apellidoPersona}" />
+			</p:column>
+
+			<p:column headerText="DNI">
+				<h:outputText value="#{estudiante.persona.dni}" />
+			</p:column>
+
+			<p:column headerText="Dirección">
+				<h:outputText value="#{estudiante.persona.direccion}" />
+			</p:column>
+
+			<p:column headerText="Roomate">
+				<h:outputText value="#{estudiante.roomate}" />
+			</p:column>
+
+			<p:column headerText="Telefono">
+				<h:outputText value="#{estudiante.persona.numeroTelefono}" />
+			</p:column>
+
+			<p:column headerText="Universidad">
+				<h:outputText value="#{estudiante.descripcionUniv}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<p:toolbar id="toolbar-estudiante">
+			<f:facet name="left">
+				<p:commandButton value="Nuevo" icon="pi pi-file"
+					disabled="#{estudianteView.disabledButtonNuevo}"
+					actionListener="#{estudianteView.newEstudiante()}" update="@form" />
+
+				<p:commandButton value="Grabar" icon="pi pi-save"
+					disabled="#{estudianteView.disabledButtonGrabar}"
+					actionListener="#{estudianteView.saveEstudiante()}" update="@form" />
+				<p:commandButton value="Cancelar" icon="pi pi-times"
+					disabled="#{estudianteView.disabledButtonCancelar}"
+					actionListener="#{estudianteView.cancelEstudiante()}"
+					update="@form" />
+
+				<p:commandButton value="Editar" icon="pi pi-pencil"
+					disabled="#{estudianteView.disabledButtonEditar}"
+					actionListener="#{estudianteView.editEstudiante()}" update="@form" />
+
+				<p:commandButton value="Eliminar" icon="pi pi-trash"
+					disabled="#{estudianteView.disabledButtonEliminar}"
+					actionListener="#{estudianteView.deleteEstudiante()}"
+					update=":form-estudiante:table-estudiante :form-estudiante:toolbar-estudiante">
+					<p:confirm header="Confirmación"
+						message="Estas seguro que deseas elimininar a: #{estudianteView.messageConfirmDialog}?"
+						icon="pi pi-exclamation-triangle" />
+				</p:commandButton>
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Si" type="button"
+						styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+				</p:confirmDialog>
+
+
+			</f:facet>
+		</p:toolbar>
+
+	</h:form>
+
+
+</h:body>
+</html>

@@ -1,0 +1,168 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Lista de Arrendadores</title>
+</h:head>
+
+<h:body>
+
+	<h1>Arrendadores</h1>
+
+	<h:form id="form-arrendador">
+		<p:growl id="growl" life="2000" />
+		<p:panelGrid id="panel-arrendador" columns="4"
+			style="#{arrendadorView.stylePanelArrendador}">
+			<p:outputLabel for="input-nombrePersona" value="Nombres :" />
+			<p:inputText id="input-nombrePersona"
+				value="#{arrendadorView.arrendador.persona.nombrePersona}" />
+			<p:outputLabel for="input-apellidoPersona" value="Apellidos :" />
+			<p:inputText id="input-apellidoPersona"
+				value="#{arrendadorView.arrendador.persona.apellidoPersona}" />
+
+			<p:outputLabel for="input-numeroTelefono" value="Teléfono :" />
+			<p:inputText id="input-numeroTelefono"
+				value="#{arrendadorView.arrendador.persona.numeroTelefono}" />
+			<p:outputLabel for="input-dni" value="DNI :" />
+			<p:inputText id="input-dni"
+				value="#{arrendadorView.arrendador.persona.dni}" />
+
+			<p:outputLabel for="input-direccion" value="Dirección :" />
+			<p:inputText id="input-direccion"
+				value="#{arrendadorView.arrendador.persona.direccion}" />
+			<p:outputLabel for="input-ruc" value="RUC :" />
+			<p:inputText id="input-ruc" value="#{arrendadorView.arrendador.ruc}" />
+
+			<p:outputLabel for="input-descripcion" value="Descripción :" />
+			<p:inputText id="input-descripcion"
+				value="#{arrendadorView.arrendador.descripcion}" />
+			<p:outputLabel for="select-distrito" value="Distrito :" />
+			<p:selectOneMenu id="select-distrito"
+				value="#{arrendadorView.arrendador.distritoId}">
+				<f:selectItem itemLabel="Selecciona uno" itemValue="0"
+					noSelectionOption="true" />
+			    <f:selectItems value="#{distritoMenuView.distritos}"
+					var="distrito" itemLabel="#{distrito.nombreDistrito}"
+					itemValue="#{distrito.id}" />
+			</p:selectOneMenu>
+
+		</p:panelGrid>
+
+		<p:panelGrid id="panel-search" columns="4"
+			style="#{arrendadorView.styleTableArrendador}">
+			<p:outputLabel for="input-search-nombrePersona" value="Nombres :" />
+			<p:inputText id="input-search-nombrePersona"
+				value="#{arrendadorView.arrendadorSearch.persona.nombrePersona}" />
+			<p:commandButton value="Buscar" icon="pi pi-search"
+				actionListener="#{arrendadorView.findByNombre()}"
+				update=":form-arrendador:table-arrendador :form-arrendador:toolbar-arrendador" />
+			<p:commandButton value="Limpiar" icon="pi pi-refresh"
+				actionListener="#{arrendadorView.cleanByNombres()}" update="@form" />
+
+			<p:outputLabel for="input-search-apellidoPersona" value="Apellidos :" />
+			<p:inputText id="input-search-apellidoPersona"
+				value="#{arrendadorView.arrendadorSearch.persona.apellidoPersona}" />
+			<p:commandButton value="Buscar" icon="pi pi-search"
+				actionListener="#{arrendadorView.findByApellido()}"
+				update=":form-arrendador:table-arrendador :form-arrendador:toolbar-arrendador" />
+			<p:commandButton value="Limpiar" icon="pi pi-refresh"
+				actionListener="#{arrendadorView.cleanByApellidos()}" update="@form" />
+
+			<p:outputLabel for="input-search-dni" value="DNI :" />
+			<p:inputText id="input-search-dni"
+				value="#{arrendadorView.arrendadorSearch.persona.dni}" />
+			<p:commandButton value="Buscar" icon="pi pi-search"
+				actionListener="#{arrendadorView.findBydni()}"
+				update=":form-arrendador:table-arrendador :form-arrendador:toolbar-arrendador" />
+			<p:commandButton value="Limpiar" icon="pi pi-refresh"
+				actionListener="#{arrendadorView.cleanBydni()}" update="@form" />
+		</p:panelGrid>
+
+		<p:dataTable id="table-arrendador"
+			value="#{arrendadorView.arrendadores}" var="arrendador"
+			paginator="true" rows="5" paginatorPosition="bottom"
+			selectionMode="single" rowKey="#{arrendador.id}"
+			style="#{arrendadorView.styleTableArrendador}"
+			emptyMessage="No hay arrendadores encontrados">
+			
+			<p:ajax event="rowSelect" listener="#{arrendadorView.selectArrendador}" update="@form" />
+			<p:ajax event="rowUnselect" listener="#{arrendadorView.unselectArrendador}" update="@form"  />
+			
+			
+			<p:column headerText="Id">
+				<h:outputText value="#{arrendador.id}" />
+			</p:column>
+
+			<p:column headerText="Nombres">
+				<h:outputText value="#{arrendador.persona.nombrePersona}" />
+			</p:column>
+
+			<p:column headerText="Apellidos">
+				<h:outputText value="#{arrendador.persona.apellidoPersona}" />
+			</p:column>
+
+			<p:column headerText="Telefono">
+				<h:outputText value="#{arrendador.persona.numeroTelefono}" />
+			</p:column>
+
+			<p:column headerText="DNI">
+				<h:outputText value="#{arrendador.persona.dni}" />
+			</p:column>
+
+			<p:column headerText="Dirección">
+				<h:outputText value="#{arrendador.persona.direccion}" />
+			</p:column>
+
+			<p:column headerText="RUC">
+				<h:outputText value="#{arrendador.ruc}" />
+			</p:column>
+
+			<p:column headerText="Descripcion del Arrendador">
+				<h:outputText value="#{arrendador.descripcion}" />
+			</p:column>
+
+			<p:column headerText="Distrito">
+				<h:outputText value="#{arrendador.distrito.nombreDistrito}" />
+			</p:column>
+		</p:dataTable>
+		
+		<p:toolbar id="toolbar-arrendador">
+			<f:facet name="left">
+				<p:commandButton value="Nuevo" icon="pi pi-file" disabled="#{arrendadorView.disabledButtonNuevo}"
+					actionListener="#{arrendadorView.newArrendador()}" 
+					update="@form" />
+					
+				<p:commandButton value="Grabar" icon="pi pi-save" disabled="#{arrendadorView.disabledButtonGrabar}"
+					actionListener="#{arrendadorView.saveArrendador()}"
+					update="@form" />
+				<p:commandButton value="Cancelar" icon="pi pi-times" disabled="#{arrendadorView.disabledButtonCancelar}"
+					actionListener="#{arrendadorView.cancelArrendador()}"
+					update="@form" />
+					
+				<p:commandButton value="Editar" icon="pi pi-pencil" disabled="#{arrendadorView.disabledButtonEditar}"
+					actionListener="#{arrendadorView.editArrendador()}" 
+					update="@form" />
+					
+				<p:commandButton value="Eliminar" icon="pi pi-trash" disabled="#{arrendadorView.disabledButtonEliminar}"
+					actionListener="#{arrendadorView.deleteArrendador()}" 
+					update=":form-arrendador:table-arrendador :form-arrendador:toolbar-arrendador" >
+					<p:confirm header="Confirmación" 
+						message="Estas seguro que deseas elimininar a: #{arrendadorView.messageConfirmDialog}?" 
+						icon="pi pi-exclamation-triangle" />
+				</p:commandButton>
+				
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+			    </p:confirmDialog> 
+							
+				
+			</f:facet>
+		</p:toolbar>
+
+	</h:form>>
+	
+</h:body>
+</html>

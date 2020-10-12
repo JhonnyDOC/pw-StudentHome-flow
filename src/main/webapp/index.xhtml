@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Titulo de primeface</title>
+</h:head>
+
+<h:body>
+
+	<h:form>
+		<p:messages autoUpdate="true" />
+		<h:panelGrid columns="2">
+			<p:outputLabel for="input-usuarioEstudiante" value="Usuario :" />
+			<p:inputText id="input-usuarioEstudiante" required="true" />
+
+			<p:outputLabel for="input-contraseñaEstudiante" value="Clave :" />
+			<p:inputText id="input-contraseñaEstudiante" required="true" />
+
+			<p:outputLabel for="select-usuario" value="Tipo de Usuario :" />
+			<p:selectOneMenu id="select-usuario">
+			<f:selectItem itemLabel="Selecciona uno" itemValue="0"
+					noSelectionOption="true" />
+				<f:selectItem itemLabel="Arrendador" itemValue="Arrendador" />
+				<f:selectItem itemLabel="Cliente" itemValue="Cliente" />
+				
+			</p:selectOneMenu>
+
+			<p:commandButton value="Iniciar sesion" icon="pi pi-login" />
+			
+
+		</h:panelGrid>
+		<p:separator />
+		<p:link value="Crear cuenta" outcome="pagina" />
+	</h:form>
+
+
+</h:body>
+</html>
